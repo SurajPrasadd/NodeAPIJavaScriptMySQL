@@ -1,0 +1,583 @@
+{
+	"info": {
+		"_postman_id": "abe33c13-e13c-4489-b9bb-b99197f55f68",
+		"name": "Node-Sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12070841"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"9abc12345\",\r\n    \"email\": \"9john@example1345.com\",\r\n    \"password\": \"1234\",\r\n    \"role\":\"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/signup",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Extract token from response\r",
+							"let response = pm.response.json();\r",
+							"let accessToken = response.data.accessToken;\r",
+							"let tokenRefresh = response.data.tokenRefresh;\r",
+							"\r",
+							"// Save token to environment variable\r",
+							"if (accessToken) {\r",
+							"    pm.environment.set(\"accessToken\", accessToken);\r",
+							"    pm.environment.set(\"tokenRefresh\", tokenRefresh);\r",
+							"    console.log(\"Token saved:\", accessToken);\r",
+							"} else {\r",
+							"    console.warn(\"Token not found in response\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"1abc12345\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/signin",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefreshToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Extract token from response\r",
+							"let response = pm.response.json();\r",
+							"let accessToken = response.data.accessToken;\r",
+							"let tokenRefresh = response.data.tokenRefresh;\r",
+							"\r",
+							"// Save token to environment variable\r",
+							"if (accessToken) {\r",
+							"    pm.environment.set(\"accessToken\", accessToken);\r",
+							"    pm.environment.set(\"tokenRefresh\", tokenRefresh);\r",
+							"    console.log(\"Token saved:\", accessToken);\r",
+							"} else {\r",
+							"    console.warn(\"Token not found in response\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"{{tokenRefresh}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/refresh",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all- Pagination",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"limit\": 10,\r\n     \"page\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/all",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all- Pagination  v2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"limit\": 10,\r\n     \"page\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v2/user/vesiontestall",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"user",
+						"vesiontestall"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "download",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fileName\": \"Screenshot 2025-02-04 225712.png\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v2/user/download",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"user",
+						"download"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "downloadbase",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"limit\": 10,\r\n     \"page\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v2/user/vesiontestall",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"user",
+						"vesiontestall"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload_single",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": [
+								"/C:/Users/suraj/OneDrive/Pictures/Screenshots/Screenshot 2025-03-16 174223.png",
+								"/C:/Users/suraj/OneDrive/Pictures/Screenshots/Screenshot 2025-02-06 122353.png",
+								"/C:/Users/suraj/OneDrive/Pictures/Screenshots/Screenshot 2025-02-04 225712.png"
+							]
+						},
+						{
+							"key": "singleFile",
+							"type": "file",
+							"src": "/C:/Users/suraj/OneDrive/Pictures/Screenshots/Screenshot 2025-03-16 174223.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v2/user/upload_multi_single",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"user",
+						"upload_multi_single"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "serach",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"keyword\":\"9abc12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/serach",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"serach"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "serach - Pagination",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"keyword\":\"abc12345\",\r\n    \"limit\":5,\r\n    \"page\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/serachPage",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"serachPage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userById",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":17\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/userById",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"userById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateUserById",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2,\r\n    \"username\": \"abc1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/updateUserById",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"updateUserById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUserById",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":12\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/deleteUserById",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"deleteUserById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createOrUpdateUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\": 17,\r\n  \"username\": \"roshni123\",\r\n  \"email\": \"roshscscni@gmail.com1pp\",\r\n  \"password\": \"securepass\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user/createOrUpdateUser",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"createOrUpdateUser"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
