@@ -11,6 +11,8 @@
 ### 9. Pagination and Search API
 ### 10. Upload File and Download File
 
+### Postman Collection -> Project Directory -> Node-Sample.postman_collection.json
+
 # Steps to create Node.js application - JavaScript
 
 1. Create a new directory and initialize the Node.js application:
