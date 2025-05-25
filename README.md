@@ -1,37 +1,17 @@
-# Node JS  - API Setup - JavaScript
+# Node JS  - API Setup - JavaScript MySQL
 
-### Node JS with JWT token
-### Mysql with sequelize
-### UAT and Prod setUp
-### Log Capture - winston
-### SignUp and Login API
-### CURD API
-### Encryption and Decryption
-### Version for API
-### Pagination and Search API
-### Upload File and Download File
+### 1. Node JS with JWT token
+### 2. Mysql with sequelize
+### 3. UAT and Prod setUp
+### 4. Log Capture - winston
+### 5. SignUp and Login API
+### 6. CURD API
+### 7. Encryption and Decryption
+### 8. Version for API
+### 9. Pagination and Search API
+### 10. Upload File and Download File
 
-
-
-node-js-jwt-auth/
-├── app/
-│   ├── config/
-│   │   └── db.config.js
-│   ├── controllers/
-│   │   ├── auth.controller.js
-│   │   └── user.controller.js
-│   ├── middlewares/
-│   │   ├── authJwt.js
-│   │   └── verifySignUp.js
-│   ├── models/
-│   │   ├── index.js
-│   │   ├── role.model.js
-│   │   └── user.model.js
-│   └── routes/v1
-│       ├── auth.routes.js
-│       └── user.routes.js
-├── package.json
-└── server.js
+# Steps to create Node.js application - JavaScript
 
 1. Create a new directory and initialize the Node.js application:
 
