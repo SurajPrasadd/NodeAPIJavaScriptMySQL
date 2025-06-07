@@ -1,18 +1,21 @@
 # Dependency directories
-node_modules/
-package-lock.json
+Backend/node_modules/
+Backend/package-lock.json
+
+# uploads
+Backend/uploads/*.*
 
 # Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
+Backend/logs
+Backend/*.log
+Backend/npm-debug.log*
+Backend/yarn-debug.log*
+Backend/yarn-error.log*
+Backend/lerna-debug.log*
+Backend/.pnpm-debug.log*
 
 # parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
+Backend/.cache
+Backend/.parcel-cache
 
 .idea/
