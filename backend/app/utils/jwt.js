@@ -22,5 +22,4 @@ export const generateRefreshToken = (jid,expiresAt) => {
 export const verifyAccessToken = (token) => jwt.verify(token, JWT_SECRET);
 export const verifyRefreshToken = (token) => jwt.verify(token, JWT_REFRESH_SECRET);
 
-export const decodeToken = (token) => jwt.decode(token);
 

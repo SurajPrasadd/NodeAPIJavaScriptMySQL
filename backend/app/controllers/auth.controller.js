@@ -44,10 +44,13 @@ export const signin = async (req, res) => {
         }
         const secretKey = crypto.randomBytes(32).toString("base64"); // Store securely in real apps!
         const iv = crypto.randomBytes(16).toString("base64");
-        const session = await createSession(user.id,secretKey,iv,parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
+        const expiresAt = new Date(Date.now() + parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
+        const refreshExpiresAt = new Date(Date.now() + parseInt(process.env.JWT_REFRESH_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
+
+        const session = await createSession(user.id,secretKey,iv,expiresAt);
 
         const token = generateAccessToken(session.jid,session.expiresAt);
-        const tokenRefresh = generateRefreshToken(session.jid,session.expiresAt);
+        const tokenRefresh = generateRefreshToken(session.jid,refreshExpiresAt);
 
         const authorities = user.roles.map((role) => role.name.toUpperCase());
 
@@ -66,16 +69,15 @@ export const signin = async (req, res) => {
 
 export const refresh = async (req, res) => {
     try {
-        const { refreshToken } = req.body;
-
-        if (!refreshToken) return jsonResponse(res,STATUS_CODES.BAD_REQUEST, MESSAGES.ERROR);
-
         const foundSession = req.foundSession;
 
-        const session = await createSession(foundSession.user.id,null,null,parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
+        const expiresAt = new Date(Date.now() + parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
+        const refreshExpiresAt = new Date(Date.now() + parseInt(process.env.JWT_REFRESH_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
+
+        const session = await createSession(foundSession.user.id,null,null,expiresAt);
 
         const token = generateAccessToken(session.jid,session.expiresAt);
-        const tokenRefresh = generateRefreshToken(session.jid,session.expiresAt);
+        const tokenRefresh = generateRefreshToken(session.jid,refreshExpiresAt);
 
         await deleteSessionByJid(foundSession.jid);
 

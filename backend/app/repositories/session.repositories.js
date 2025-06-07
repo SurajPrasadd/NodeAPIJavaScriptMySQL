@@ -2,10 +2,8 @@ import db from '../models/index.js';
 
 const { session: Session,user :User,role :Role } = db;
 
-export const createSession = async (userId, postKey = null, postIv = null, expiresInMs = 15 * 60 * 1000 ) => {
+export const createSession = async (userId, postKey = null, postIv = null, expiresAt ) => {
     try {
-        const expiresAt = new Date(Date.now() + expiresInMs);
-
         const session = await Session.create({
             userId,
             postKey,

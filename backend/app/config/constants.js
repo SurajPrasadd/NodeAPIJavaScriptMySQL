@@ -18,6 +18,5 @@ export const TABLE_NAME = {
 };
 
 export const TIME_IN_MS = {
-    ONE_MIN: 60000,
-    TOKEN_REFRESH_BUFFER_MIN: 4
+    ONE_MIN: 60000
 };

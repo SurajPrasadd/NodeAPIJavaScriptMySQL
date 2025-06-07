@@ -24,92 +24,62 @@ npm init -y
 2. Install the necessary packages:
 
 npm install express sequelize mysql2 cors jsonwebtoken bcryptjs
+```
+Node.js: Runtime environment.
+Express 4: Web framework.
+Sequelize 6: ORM for MySQL.
+MySQL 8: Relational database.
+JWT 9: Token-based authentication.
+bcryptjs 2: Password hashing.
+CORS 2: Cross-Origin Resource Sharing.
+```
 
 3. Ensure your package.json includes the following script:
-
+```
 "scripts": {
   "start": "node server.js"
 }
-
+```
 4. Update package.json for ESModules
+```
 {
   ...
   "type": "module",
   ...
 }
-5. sequelize example
-```sh
-const amount = await Project.count({
-  where: {
-    id: {
-      [Op.gt]: 25,
-    },
-  },
-});
+```
+5. Project Structure
+   ![plot](backend/uploads/Screenshot 2025-06-07 200123.png)
+   Reference : (https://www.corbado.com/blog/nodejs-express-mysql-jwt-authentication-roles#5-project-structure)
 
-await User.update(
-  { lastName: 'Doe' },
-  {
-    where: {
-      lastName: null,
-    },
-  },
-);
-  
-Foo.findAll({
-  where: {
-    rank: {
-      [Op.or]: {
-        [Op.lt]: 1000,
-        [Op.eq]: null
-      }
-    },
-    // rank < 1000 OR rank IS NULL
-
-    {
-      createdAt: {
-        [Op.lt]: new Date(),
-        [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
-      }
-    },
-    // createdAt < [timestamp] AND createdAt > [timestamp]
-
-    {
-      [Op.or]: [
-        {
-          title: {
-            [Op.like]: 'Boat%'
-          }
-        },
-        {
-          description: {
-            [Op.like]: '%boat%'
-          }
-        }
-      ]
-    }
-    // title LIKE 'Boat%' OR description LIKE '%boat%'
-  }
-});
- 
- 
- flag: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-
-myDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-
-
-class User extends Model {
-  static classLevelMethod() {
-    return 'foo';
-  }
-  instanceLevelMethod() {
-    return 'bar';
-  }
-  getFullname() {
-    return [this.firstname, this.lastname].join(' ');
-  }
-}
+```
+backend/
+├── app/
+│   ├── config/
+│   │   ├── auth.config.js
+│   │   └── db.config.js
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   └── user.controller.js
+│   ├── middlewares/
+│   │   ├── authJwt.js
+│   │   └── verifySignUp.js
+│   ├── models/
+│   │   ├── index.js
+│   │   ├── role.model.js
+│   │   └── user.model.js
+│   └── routes/
+│       └── v1/
+│           ├── auth.routes.js
+│           └── user.routes.js
+├── package.json
+└── server.js
 ```
 
+![plot](backend/uploads/User Flow Diagram.png)
 
+6. Start Server
+```
+npm start
+```
 
