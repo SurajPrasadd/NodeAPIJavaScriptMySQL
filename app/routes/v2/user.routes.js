@@ -12,6 +12,7 @@ import  multer from "multer";
 import {fileURLToPath} from "url";
 import path from "path";
 import fs from "fs";
+import logger from "../../utils/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,31 +74,9 @@ router.post("/downloadbase", [verifyToken, isAdmin],(req, res) => {
 });
 
 function uploadFiles(req, res) {
-    console.log(req.body);
-    console.log(req.files);
-    // [
-    //     {
-    //         fieldname: 'files',
-    //         originalname: 'Screenshot 2024-12-13 121121.png',
-    //         encoding: '7bit',
-    //         mimetype: 'image/png',
-    //         destination: 'uploads/',
-    //         filename: 'd24eff97298d563a81011e49fa69a3d0',
-    //         path: 'uploads\\d24eff97298d563a81011e49fa69a3d0',
-    //         size: 143938
-    //     },
-    //     {
-    //         fieldname: 'files',
-    //         originalname: 'Screenshot 2024-12-13 121139.png',
-    //         encoding: '7bit',
-    //         mimetype: 'image/png',
-    //         destination: 'uploads/',
-    //         filename: '2fe886ae1aec7dead4db45c64d2ddc8e',
-    //         path: 'uploads\\2fe886ae1aec7dead4db45c64d2ddc8e',
-    //         size: 133847
-    //     }
-    // ]
-
+  //  logger.debug(req.files);
+    logger.info("Successfully uploaded files");
+    logger.error("File List", req.files);
     res.json({ message: "Successfully uploaded files" });
 }
 

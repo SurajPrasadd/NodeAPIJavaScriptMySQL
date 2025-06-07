@@ -1,5 +1,5 @@
 const config = {
-    logLevel: process.env.LOG_LEVEL || 'info',
+    nodeEnv: process.env.NODE_ENV || 'info',
     aesKey: process.env.AES_CBC_KEY,
     aesIv: process.env.AES_CBC_IV,
 };

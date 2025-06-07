@@ -46,8 +46,8 @@ export const signin = async (req, res) => {
         const iv = crypto.randomBytes(16).toString("base64");
         const session = await createSession(user.id,secretKey,iv,parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
 
-        const token = generateAccessToken(session.jid,parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10));
-        const tokenRefresh = generateRefreshToken(session.jid,parseInt(process.env.JWT_REFRESH_TOKEN_EXP_IN_MIN, 10));
+        const token = generateAccessToken(session.jid,session.expiresAt);
+        const tokenRefresh = generateRefreshToken(session.jid,session.expiresAt);
 
         const authorities = user.roles.map((role) => role.name.toUpperCase());
 
@@ -70,19 +70,14 @@ export const refresh = async (req, res) => {
 
         if (!refreshToken) return jsonResponse(res,STATUS_CODES.BAD_REQUEST, MESSAGES.ERROR);
 
-        const decoded = verifyRefreshToken(refreshToken);
-        const foundSession = await findSessionByJid(decoded.jid);
-
-        if (!foundSession || !foundSession.user) {
-            jsonResponse(res,STATUS_CODES.UNAUTHORIZED, MESSAGES.INVALID_OR_EXPIRED_SESSION);
-        }
+        const foundSession = req.foundSession;
 
         const session = await createSession(foundSession.user.id,null,null,parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10) * TIME_IN_MS.ONE_MIN);
 
-        const token = generateAccessToken(session.jid,parseInt(process.env.JWT_TOKEN_EXP_IN_MIN, 10));
-        const tokenRefresh = generateRefreshToken(session.jid,parseInt(process.env.JWT_REFRESH_TOKEN_EXP_IN_MIN, 10));
+        const token = generateAccessToken(session.jid,session.expiresAt);
+        const tokenRefresh = generateRefreshToken(session.jid,session.expiresAt);
 
-        await deleteSessionByJid(decoded.jid);
+        await deleteSessionByJid(foundSession.jid);
 
         return jsonResponse(res,STATUS_CODES.SUCCESS, MESSAGES.SUCCESS,{
             accessToken: token,

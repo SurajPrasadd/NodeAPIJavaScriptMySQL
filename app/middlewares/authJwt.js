@@ -41,18 +41,25 @@ export const verifyTokenForRefresh = async (req, res, next) => {
         if (!foundSession || !foundSession.user) {
             return jsonResponse(res,STATUS_CODES.UNAUTHORIZED, MESSAGES.INVALID_OR_EXPIRED_SESSION);
         }
-
+        req.foundSession = foundSession;
         next();
     } catch (err) {
         // Handle token expiration specifically
         if (err.name === "TokenExpiredError") {
             const decoded = decodeToken(token.replace("Bearer ", ""));
-            const expiredAt = decoded?.exp ? new Date(decoded.exp * 1000) : null;
+            const foundSession = await findSessionByJid(decoded.jid);
+
+            if (!foundSession || !foundSession.user) {
+                return jsonResponse(res,STATUS_CODES.UNAUTHORIZED, MESSAGES.INVALID_OR_EXPIRED_SESSION);
+            }
+
+            const expiredAt = foundSession.expiresAt;
 
             if (expiredAt && expiredAt.getTime() < Date.now()) {
                 const minutesSinceExpired = Math.floor((Date.now() - expiredAt.getTime()) / 60000);
 
                 if (minutesSinceExpired < TIME_IN_MS.TOKEN_REFRESH_BUFFER_MIN) {
+                    req.foundSession = foundSession;
                     next();
                 }else{
                     await deleteSessionByJid(decoded.jid);

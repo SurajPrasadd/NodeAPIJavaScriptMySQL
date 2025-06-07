@@ -3,19 +3,19 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
-export const generateAccessToken = (jid,expInMin) => {
+export const generateAccessToken = (jid,expiresAt) => {
+    const exp = Math.floor(new Date(expiresAt).getTime() / 1000);
     return jwt.sign(
-        { jid},
-        JWT_SECRET,
-        { expiresIn: expInMin+'m' }
+        { jid,exp},
+        JWT_SECRET
     );
 };
 
-export const generateRefreshToken = (jid,expInMin) => {
+export const generateRefreshToken = (jid,expiresAt) => {
+    const exp = Math.floor(new Date(expiresAt).getTime() / 1000);
     return jwt.sign(
-        { jid},
-        JWT_REFRESH_SECRET,
-        { expiresIn: expInMin+'m' }
+        { jid,exp},
+        JWT_REFRESH_SECRET
     );
 };
 
